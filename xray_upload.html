@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X-Ray Disease Prediction</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif;}
+    body {background: url('{{ url_for("static", filename="5.jpg") }}') no-repeat center center/cover;
+          height: 100vh; display: flex; align-items: center; justify-content: center; color: #fff;
+          position: relative; overflow: hidden; animation: fadeIn 1.5s ease-in-out;}
+    body::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 0; }
+    .container { z-index: 1; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px; padding: 40px; width: 90%; max-width: 500px; text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3); animation: slideUp 1.2s ease-out;}
+    h1 { margin-bottom: 25px; color: #e3f2fd; }
+    input[type=file] { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white; padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 15px;}
+    input[type=file]::file-selector-button { background-color: #2196f3; color: white; border: none;
+      padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+    input[type=file]::file-selector-button:hover { background-color: #1976d2; }
+    .btn { width: 100%; padding: 12px; border: none; border-radius: 12px; background: linear-gradient(90deg, #2196f3, #64b5f6);
+      color: white; font-size: 1.1em; cursor: pointer; transition: 0.3s ease; }
+    .btn:hover { transform: scale(1.05); background: linear-gradient(90deg, #42a5f5, #1e88e5); }
+    .results { margin-top: 20px; text-align: left; background: rgba(255, 255, 255, 0.1); padding: 15px;
+      border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.3); white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; color: white; }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+    th { text-align: left; color: #bbdefb; }
+    .back-btn { margin-top: 25px; display: inline-block; text-align: center; color: #fff; text-decoration: none;
+      padding: 8px 20px; border-radius: 20px; font-size: 0.9em; background: linear-gradient(90deg, #4caf50, #81c784);
+      transition: 0.3s; }
+    .back-btn:hover { transform: scale(1.1); background: linear-gradient(90deg, #66bb6a, #388e3c); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>X-Ray Disease Prediction</h1>
+    <form action="/xray_predict" method="post" enctype="multipart/form-data">
+      <input type="file" name="xray_image" accept="image/*" required>
+      <input type="submit" value="Predict" class="btn">
+    </form>
+
+    {% if image_path %}
+      <h3>Uploaded Image:</h3>
+      <img src="{{ image_path }}" width="300">
+    {% endif %}
+
+    {% if results %}
+      <div class="results">
+        <h3>Top 5 Predicted Probabilities:</h3>
+        <table>
+          <tr><th>Disease</th><th>Probability</th></tr>
+          {% for r in results %}
+            <tr><td>{{ r.label }}</td><td>{{ r.prob }}</td></tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% elif result %}
+      <p>{{ result }}</p>
+    {% endif %}
+
+    <a href="/" class="back-btn"> Back</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical AI Application</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Raleway", sans-serif;
+    }
+
+    body {
+      background: url('{{ url_for("static", filename="1.jpg") }}') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .container {
+      z-index: 1;
+      max-width: 900px;
+      padding: 20px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: slideUp 1.2s ease-out;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 40px;
+      animation: fadeInUp 1.3s ease-out;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      flex-wrap: wrap;
+      animation: fadeInUp 1.4s ease-out;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      width: 300px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+       transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .card p {
+      font-size: 1.2em;
+      color: #fff;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome to our Medical Application</h1>
+    <p>Do you want to insert The patient history or X-ray images?</p>
+
+    <div class="cards">
+      <div class="card" onclick="window.location.href='/patient_history'">
+        <img src="{{ url_for('static', filename='2.jpg') }}" alt="Numeric Data">
+        <p>Insert the patient history</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='/xray_predict'">
+        <img src="{{ url_for('static', filename='3.jpg') }}" alt="X-ray Image">
+        <p>Insert X-ray images</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
